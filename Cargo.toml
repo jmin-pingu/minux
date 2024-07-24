@@ -9,4 +9,8 @@ panic = "abort"
 [profile.release]
 panic = "abort"
 
+[lib]
+name = "minux"
+path = "src/lib.rs"
+
 [dependencies]

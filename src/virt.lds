@@ -49,9 +49,11 @@ machine, I went with 128M since I think that's enough RAM for now.
 We can provide other pieces of memory, such as QSPI, or ROM, but we're
 telling the linker script here that we have one pool of RAM.
 */
+
 MEMORY
 {
-  ram   (WXA!RI) : ORIGIN = 0x80000000, LENGTH = 128M
+  ram (wxa) : ORIGIN = 0x80000000, LENGTH = 128M
+
 }
 
 /*
