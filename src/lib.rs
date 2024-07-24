@@ -1,6 +1,24 @@
 #![no_std]
-
 use core::arch::asm;
+use core::panic;
+
+// Modules
+pub mod memlayout;
+pub mod uart;
+
+// Entry Point
+#[no_mangle]
+extern "C"
+fn main() {
+	let mut my_uart = uart::UartDriver::new(0x1000_0000);
+	my_uart.init();
+
+	println!("Testing IO");
+	println!("I'm better than you think dawgs!");
+
+}
+
+
 // ///////////////////////////////////
 // / RUST MACROS
 // ///////////////////////////////////
@@ -8,9 +26,12 @@ use core::arch::asm;
 macro_rules! print
 {
 	($($args:tt)+) => ({
+        use core::fmt::Write;
 
+        let _ = write!(crate::uart::UartDriver::new(memlayout::UART0), $($args)+);
 	});
 }
+
 #[macro_export]
 macro_rules! println
 {
@@ -39,7 +60,7 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
 					"line {}, file {}: {}",
 					p.line(),
 					p.file(),
-					info.message().unwrap()
+					info.message()
 		);
 	}
 	else {
