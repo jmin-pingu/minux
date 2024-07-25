@@ -22,4 +22,3 @@ qemu-system-riscv64
 -kernel 
 """	
 
-# Eventually want to run this all in a Makefile
