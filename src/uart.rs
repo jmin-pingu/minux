@@ -36,22 +36,6 @@ impl UartDriver {
 			// Set the word length for LCR
 			self.getreg(LCR).write_volatile(LCR_WORD_LEN_5);
 
-const RHR: u8 = 0;                  // receive holding register (for input bytes)
-const THR: u8 = 0;                 // transmit holding register (for output bytes) 
-const IER: u8 = 1;                 // interrupt enable register
-const IER_RX_ENABLE: u8 = 1<<0;
-const IER_TX_ENABLE: u8 = 1<<1;
-const FCR: u8 = 2;                 // FIFO control register
-const FCR_FIFO_ENABLE: u8 = 1<<0;
-const FCR_FIFO_CLEAR: u8 = 3<<1; // clear the content of the two FIFOs
-const ISR: u8 = 2;                 // interrupt status register
-const LCR: u8 = 3;                 // line control register
-const LCR_WORD_LEN_5: u8 = 1<<0 | 1<<1;
-const LCR_EIGHT_BITS: u8 = 3<<0;
-const LCR_BAUD_LATCH: u8 = 1<<7; // special mode to set baud rate
-const LSR: u8 = 5;                 // line status register
-const LSR_RX_READY: u8 = 1<<0;   // input is waiting to be read from RHR
-const LSR_TX_IDLE: u8 = 1<<5;    // THR can accept another character to send
 			// Enable the FIFO
 			self.getreg(FCR).write_volatile(FCR_FIFO_ENABLE);
 

@@ -7,6 +7,7 @@
 // They show using include_str! with it to
 // import a full assembly file, which is what I want here.
 
-global_asm!(include_str!("boot.S"));
-global_asm!(include_str!("mem.S"));
+use core::arch::global_asm;
 
+global_asm!(include_str!("boot.S"));
+global_asm!(include_str!("trap.S"));

@@ -1,7 +1,7 @@
 // Physical memory layout
 // qemu -machine virt is set up like this,
 // based on qemu's hw/riscv/virt.c
-// 00001000 -- boot ROM, provided by qemu
+// 00001000 -- boot ROM, provided by qemu TODO: look into this ?
 // 02000000 -- CLINT
 // 0C000000 -- PLIC
 // 10000000 -- uart0 
