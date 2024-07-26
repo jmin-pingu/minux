@@ -1,19 +1,40 @@
 QEMU=qemu-system-riscv64
 MACH=virt
 CPU=rv64
-CPUS=4
+CPUS=1
 MEM=128M
-DRIVE=hdd.dsk
+DISK=hdd.dsk
+LINKER=src/virt.lds
+TARGET=riscv64gc-unknown-none-elf
+CONFIG=.cargo/config.toml
 
+QEMUOPTS = -machine $(MACH) -cpu $(CPU) -smp $(CPUS) -m $(MEM) -drive if=none,format=raw,file=$(DISK),id=foo
+QEMUOPTS +=-nographic -serial mon:stdio -bios none $(DEVICES) -kernel
+DEVICES =-device virtio-rng-device -device virtio-gpu-device -device virtio-net-device -device virtio-tablet-device -device virtio-keyboard-device
 
 all:
 	./make_hdd.sh
+	@echo "[build]" > $(CONFIG)
+	@echo "target=\"$(TARGET)\"" >> $(CONFIG)
+	@echo "rustflags=['-Clink-arg=-T$(LINKER)']" >> $(CONFIG)
+	@echo "[target.$(TARGET)]" >> $(CONFIG)
+	@echo "runner =\"$(QEMU) $(QEMUOPTS)\"" >> $(CONFIG)
+	cargo build
+
+all-gdb:
+	./make_hdd.sh
+	@echo "[build]" > $(CONFIG)
+	@echo "target=\"$(TARGET)\"" >> $(CONFIG)
+	@echo "rustflags=['-Clink-arg=-T$(LINKER)']" >> $(CONFIG)
+	@echo "[target.$(TARGET)]" >> $(CONFIG)
+	@echo "runner =\"$(QEMU) $(QEMUOPTS)\"" >> $(CONFIG)
 	cargo build
 	
 qemu: all
 	cargo run
 
-run: all
+qemu-gdb: all-gdb
+	@echo "*** Now run 'gdb' in another window." 
 	cargo run
 
 
@@ -21,5 +42,7 @@ run: all
 clean:
 	cargo clean
 	rm -f $(OUT)
+
+
 
 

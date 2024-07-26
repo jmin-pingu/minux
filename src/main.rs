@@ -17,6 +17,62 @@ fn kmain() {
 
 	println!("Testing IO");
 	println!("There is nothing quite like compiler hell!");
+    print!("~ ");
+    loop {
+        if let Some(c) = my_uart.uart_getc() {
+            match c {
+                3 => {
+                    println!("");
+                    println!("^C: minux exiting");
+                    break
+                },
+                0x0D => { // ANSI for Enter
+                    println!("");
+                    print!("~ ");
+                },
+                0x1b => { // Arrow key control
+                    if let Some(next_byte) = my_uart.uart_getc() {
+                        if next_byte == 91 {
+                            // This is a right bracket! We're on our way!
+                            if let Some(b) = my_uart.uart_getc() {
+                                match b as char {
+                                    // eventually make up and down access the buffered history of
+                                    // commands
+                                    'A' => {
+                                        println!("up");
+                                    },
+                                    'B' => {
+                                        println!("down");
+                                    },
+                                    // likewise for each command, we need to keep track of the
+                                    // length so we do not go outside of bounds 
+                                    'C' => {
+                                        println!("right");
+                                    },
+                                    'D' => {
+                                        println!("left");
+                                    },
+                                    _ => {
+                                        print!("");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                0x08 | 0x7F => { // ANSI for Delete
+                    print!("{}{}{}", '\u{0008}', ' ', '\u{0008}');
+                },
+                _ => {
+                    print!("{}", c as char)
+                },
+            }
+        }
+
+    }
+    loop {
+
+    }
 }
 
 // Macros 
