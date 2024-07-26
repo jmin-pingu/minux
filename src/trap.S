@@ -8,5 +8,5 @@
 asm_trap_vector:
     # We get here when the CPU is interrupted
 	# for any reason.
-	call kmain 
+	call kinit 
     mret

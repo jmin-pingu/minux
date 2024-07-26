@@ -20,14 +20,14 @@ const LSR_RX_READY: u8 = 1<<0;   // input is waiting to be read from RHR
 const LSR_TX_IDLE: u8 = 1<<5;    // THR can accept another character to send
                                                  
 pub struct UartDriver {
-    base_address: usize,
+    base_address: u64,
 }
 
 const UART_TX_BUF_SIZE: u8 = 32;
 
 
 impl UartDriver {
-    pub fn new(base_address: usize) -> Self {
+    pub fn new(base_address: u64) -> Self {
         UartDriver {
             base_address
         }
