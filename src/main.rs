@@ -11,6 +11,7 @@ pub mod memlayout;
 pub mod assembly;
 pub mod uart;
 pub mod riscv;
+pub mod vm;
 
 // boot.S jumps here after initializing the stack
 #[no_mangle]
@@ -58,8 +59,10 @@ fn kinit() {
 	let mut my_uart = uart::UartDriver::new(memlayout::UART0);
 	my_uart.init();
 
-	println!("Testing IO");
-	println!("There is nothing quite like compiler hell!");
+	println!("Starting sh");
+
+    vm::testing();
+
 	println!("mhartid: {}", riscv::r_mhartid());
 
 	println!("sp: {}", riscv::r_sp());
@@ -119,7 +122,6 @@ fn kinit() {
     }
 }
 
-// Macros 
 #[macro_export]
 macro_rules! print
 {
@@ -143,7 +145,6 @@ macro_rules! println
 		print!(concat!($fmt, "\r\n"), $($args)+)
 	});
 }
-
 
 // Functions 
 // #[no_mangle]
