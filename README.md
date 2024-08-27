@@ -1,1 +1,2 @@
-# Minux: a Rust OS
+# Minux: a barebones Rust-based OS
+
