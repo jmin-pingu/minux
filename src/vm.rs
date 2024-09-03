@@ -16,6 +16,7 @@ struct KernMem<'a> {
     freelist: cell::Cell<&'a Run<'a>>,
 }
 
+// NOTE: Code from MIT 6.1810
 // void
 // kinit()
 // {

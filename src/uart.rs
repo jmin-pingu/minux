@@ -124,6 +124,7 @@ impl Write for UartDriver {
 
 }
 
+// NOTE: Code from MIT 6.1810
 // // the transmit output buffer.
 // char uart_tx_buf[UART_TX_BUF_SIZE];
 // uint64 uart_tx_w; // write next to uart_tx_buf[uart_tx_w % UART_TX_BUF_SIZE]
